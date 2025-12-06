@@ -2,8 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/auth-sso-api/appsettings.Development.json
-/Services/Msd.Services.EmailApi/appsettings.Development.json
 /.vs
 /Services/.vs
+/Services/Msd.Services.EmailApi/appsettings.Development.json
 /Services/Msd.Services.AuthApi/appsettings.Development.json
