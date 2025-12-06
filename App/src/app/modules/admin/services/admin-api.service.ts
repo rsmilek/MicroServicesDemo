@@ -58,6 +58,15 @@ export class AdminApiService {
       catchError(this.handleError)
     );
   }
+
+  deleteUser(email: string): Observable<ApiResponse<any>> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<ApiResponse<any>>(
+      `${this.authApiBaseUrl}/api/admin/delete-user/${encodeURIComponent(email)}`, { headers }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
  
   private getAuthHeaders(): HttpHeaders {
     const token = this.authService.getToken();

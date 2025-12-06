@@ -130,5 +130,44 @@ namespace Msd.Services.AuthApi.Controllers
 
             return Ok(new ApiResponse<List<string>>(roles));
         }
+
+        /// <summary>
+        /// Delete user by email
+        /// </summary>
+        /// <param name="email">User email</param>
+        /// <returns>Operation result</returns>
+        [HttpDelete("delete-user/{email}")]
+        public async Task<ActionResult<ApiResponse<object>>> DeleteUser(string email)
+        {
+            // Check if user exists
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return NotFound(new ApiResponse<object>($"User {email} not found!"));
+
+            // Check if this is the last admin user
+            var userRoles = await _userManager.GetRolesAsync(user);
+            if (userRoles.Contains(Role.Admin))
+            {
+                var adminUsers = await _userManager.GetUsersInRoleAsync(Role.Admin);
+                if (adminUsers.Count == 1)
+                    return BadRequest(new ApiResponse<object>($"Cannot delete user {email} as it is the only user with Admin role!"));
+            }
+
+            // Proceed to delete the user
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return Ok(new ApiResponse<object>()
+                {
+                    Message = $"User {email} successfully deleted.",
+                    Data = new { email }
+                });
+            }
+
+            return BadRequest(new ApiResponse<object>("Error deleting user!")
+            {
+                Data = string.Join(',', result.Errors.Select(x => x.Description))
+            });
+        }
     }
 }

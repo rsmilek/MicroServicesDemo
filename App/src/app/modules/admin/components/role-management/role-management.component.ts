@@ -3,6 +3,7 @@ import { AdminApiService } from '../../services/admin-api.service';
 import { User } from '../../../../models';
 import { role } from '../../../../utilities/role';
 import { NotificationService } from '../../../../services/notification.service';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
     selector: 'app-role-management',
@@ -20,14 +21,19 @@ export class RoleManagementComponent implements OnInit {
   
   users: User[] = [];
   roles: string[] = [];
-  displayedColumns: string[] = ['userName', 'email', 'roles'];
+  displayedColumns: string[] = ['userName', 'email', 'roles', 'actions'];
+  currentUser: User | null = null;
 
   constructor(
     private adminApiService: AdminApiService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+    });
     this.loadUsersInternal({ notification: false });
     this.loadRolesInternal({ notification: false });
   }
@@ -96,6 +102,34 @@ export class RoleManagementComponent implements OnInit {
 
   loadRoles(): void {
     this.loadRolesInternal();
+  }
+
+  deleteUser(email: string): void {
+    if (!confirm(`Are you sure you want to delete user ${email}?`)) {
+      return;
+    }
+
+    this.isLoadingUsers = true;
+
+    this.adminApiService.deleteUser(email).subscribe({
+      next: (response) => {
+        this.isLoadingUsers = false;
+        if (response.success) {
+          this.notificationService.openSuccessNotification(response.message);
+          this.loadUsersInternal({ notification: false }); // Refresh users list
+        } else {
+          this.notificationService.openErrorNotification(response.message);
+        }
+      },
+      error: (error) => {
+        this.isLoadingUsers = false;
+        var message = error.error.message || 'An error occurred during user deletion!';
+        if (error.error.data) {
+          message += ` ${error.error.data}`;
+        }
+        this.notificationService.openErrorNotification(message);
+      }
+    });
   }
 
   private loadUsersInternal(options: { notification?: boolean } = {}): void {
