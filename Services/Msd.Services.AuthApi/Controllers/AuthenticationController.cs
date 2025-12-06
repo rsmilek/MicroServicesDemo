@@ -55,7 +55,7 @@ namespace Msd.Services.AuthApi.Controllers
                 }
 
                 // User verification in database
-                var user = await _authService.CreateUserWithRoleAsync(email, returnExisting: true);
+                var user = await _authService.CreateUserWithRoleAsync(email, socialSign: true);
 
                 // Sign in the user
                 var loginResponseDto = await _authService.SignInAsync(user, name, picture);
