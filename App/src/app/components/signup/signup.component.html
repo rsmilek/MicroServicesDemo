@@ -1,0 +1,85 @@
+<div class="form-container">
+  <mat-card class="auth-card">
+    <mat-card-header>
+      <mat-card-title>Create Account</mat-card-title>
+      <mat-card-subtitle>Sign up for a new account</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      @if (!isAuthenticated) {
+        <div class="email-signup-section">
+          <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                placeholder="Enter your email"
+              >
+              @if (signupForm.get('email')?.invalid && signupForm.get('email')?.touched) {
+                <mat-error>
+                  @if (signupForm.get('email')?.errors?.['required']) {
+                    Email is required
+                  }
+                  @if (signupForm.get('email')?.errors?.['email']) {
+                    Please enter a valid email
+                  }
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                placeholder="Enter your password"
+              >
+              @if (signupForm.get('password')?.invalid && signupForm.get('password')?.touched) {
+                <mat-error>
+                  @if (signupForm.get('password')?.errors?.['required']) {
+                    Password is required
+                  }
+                </mat-error>
+              }
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Name</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="name"
+                placeholder="Enter your name (optional)"
+              >
+            </mat-form-field>
+
+            <div class="form-actions">
+              <button
+                matButton="filled"
+                color="primary"
+                type="submit"
+                class="full-width"
+                [disabled]="signupForm.invalid || isLoading"
+              >
+                @if (isLoading) {
+                  <mat-spinner diameter="20"></mat-spinner>
+                  <span style="margin-left: 8px;">Creating Account...</span>
+                } @else {
+                  <span>Create Account</span>
+                }
+              </button>
+            </div>
+
+            <div class="signup-link">
+              <mat-divider></mat-divider>
+              <p>Already have an account? <a routerLink="/signin">Sign-in</a></p>
+            </div>
+          </form>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

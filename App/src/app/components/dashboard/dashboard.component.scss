@@ -1,0 +1,105 @@
+// Component-specific styles only
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.welcome-card {
+  .user-details {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0;
+  }
+
+  .user-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .user-text {
+    .user-name {
+      margin: 0 0 0 0;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .user-email-display {
+      color: #666;
+      margin: 0 0 8px 0;
+      font-size: 14px;
+    }
+
+    .user-roles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      mat-chip {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.quick-actions-card {
+  .quick-actions {
+    display: grid;
+    gap: 16px;
+    margin-top: 8px;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+
+  .action-item {
+    width: 100%;
+
+    .action-card {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      mat-card-content {
+        flex: 1;
+
+        .action-icon {
+          text-align: center;
+          margin-bottom: 16px;
+
+          mat-icon {
+            font-size: 48px;
+            width: 48px;
+            height: 48px;
+          }
+        }
+
+        h4 {
+          margin: 0 0 8px 0;
+          font-weight: 500;
+          text-align: center;
+        }
+
+        p {
+          color: #666;
+          margin: 0;
+          text-align: center;
+          font-size: 14px;
+        }
+      }
+
+      mat-card-actions {
+        text-align: center;
+        padding-top: 0;
+
+        button {
+          margin: 10px 0 0px 0;
+        }
+      }
+    }
+  }
+}

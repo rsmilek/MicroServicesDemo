@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msd.Services.AuthApi", "Msd.Services.AuthApi\Msd.Services.AuthApi.csproj", "{46CA756C-A9B5-0428-52E5-E54753358A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msd.Services.EmailApi", "Msd.Services.EmailApi\Msd.Services.EmailApi.csproj", "{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{46CA756C-A9B5-0428-52E5-E54753358A0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46CA756C-A9B5-0428-52E5-E54753358A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46CA756C-A9B5-0428-52E5-E54753358A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46CA756C-A9B5-0428-52E5-E54753358A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {44442DE0-8A41-4750-9CD2-A1DB934C88A4}
+	EndGlobalSection
+EndGlobal

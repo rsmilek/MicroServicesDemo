@@ -1,0 +1,13 @@
+// App component styles
+.container {
+  padding-top: 8px;
+  min-height: calc(100vh - 64px);
+}
+
+// Ensure navbar is always visible
+app-navbar {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}

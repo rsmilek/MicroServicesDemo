@@ -1,0 +1,62 @@
+<mat-toolbar color="primary" class="navbar">
+  <div class="nav-brand">
+    <a routerLink="/" class="brand-link">
+      <mat-icon>security</mat-icon>
+      <span>Auth SSO App</span>
+    </a>
+  </div>
+
+  <span class="nav-spacer"></span>
+
+  @if (currentUser$ | async; as user) {
+    <div class="nav-links">
+      <a mat-button routerLink="/dashboard" routerLinkActive="active">
+        <mat-icon>dashboard</mat-icon>
+        <span>Dashboard</span>
+      </a>
+      <a mat-button routerLink="/profile" routerLinkActive="active">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </a>
+      @if (isAdmin) {
+        <a mat-button routerLink="/admin" routerLinkActive="active">
+          <mat-icon>admin_panel_settings</mat-icon>
+          <span>Admin</span>
+        </a>
+      }
+
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-trigger">
+        @if (user.picture) {
+          <img [src]="user.picture" [alt]="user.name" class="user-avatar">
+        } @else {
+          <mat-icon>account_circle</mat-icon>
+        }
+        <span class="user-name">{{ user.name || user.userName }}</span>
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+
+      <mat-menu #userMenu="matMenu" class="user-dropdown">
+        <button mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>My Profile</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sign-out</span>
+        </button>
+      </mat-menu>
+    </div>
+  } @else {
+    <div class="nav-links">
+      <a mat-button routerLink="/signin" routerLinkActive="active">
+        <mat-icon>login</mat-icon>
+        <span>Sign-in</span>
+      </a>
+      <a mat-button routerLink="/signup" routerLinkActive="active">
+        <mat-icon>person_add</mat-icon>
+        <span>Sign-up</span>
+      </a>
+    </div>
+  }
+</mat-toolbar>

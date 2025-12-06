@@ -1,0 +1,83 @@
+// Component-specific styles only
+.admin-card {
+  
+  .divider {
+    margin: 20px 10px 0 10px;
+  }
+  .admin-section {
+    margin: 12px 0;
+    padding: 8px 0;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    h3 {
+      margin: 0 0 10px 0;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .role-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      max-width: 400px;
+
+      .form-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: left;
+        margin-top: 0px;
+        flex-wrap: wrap;
+      }
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .users-table-container {
+      margin-top: 10px;
+
+      table {
+        width: 100%;
+
+        .roles-cell {
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+
+          mat-chip {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+
+    .roles-list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+
+      .role-chip-large {
+        font-size: 14px;
+        padding: 8px 16px;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}

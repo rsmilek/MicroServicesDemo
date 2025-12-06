@@ -1,0 +1,123 @@
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: relative;
+  z-index: 1000;
+  min-height: 64px;
+  width: 100%;
+  background-color: #1976d2;
+
+  .nav-brand {
+    .brand-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      font-size: 1.2rem;
+
+      &:hover {
+        text-decoration: none;
+        opacity: 0.8;
+      }
+
+      mat-icon {
+        font-size: 24px;
+      }
+    }
+  }
+
+  .nav-spacer {
+    flex: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    a {
+      color: white;
+      text-decoration: none;
+      
+      &.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+      }
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      span {
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .user-menu-trigger {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .user-name {
+      font-size: 14px;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: white !important; // Ensure white color overrides global styles
+    }
+  }
+}
+
+.user-dropdown {
+  .mat-mdc-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    mat-icon {
+      color: #666;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 12px;
+
+    .nav-links {
+      gap: 4px;
+
+      a span {
+        display: none;
+      }
+    }
+
+    .user-menu-trigger {
+      .user-name {
+        display: none;
+      }
+    }
+  }
+}

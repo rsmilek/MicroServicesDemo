@@ -1,0 +1,79 @@
+<div class="wide-container">
+  <div class="dashboard">
+    <mat-card class="welcome-card">
+      <mat-card-header>
+        <mat-card-title>Dashboard</mat-card-title>
+        <mat-card-subtitle>Welcome to your personal dashboard!</mat-card-subtitle>
+      </mat-card-header>
+
+    <mat-card-content>
+      @if (currentUser$ | async; as user) {
+        <div class="user-info">
+          <div class="user-details">
+            @if (user.picture) {
+              <img [src]="user.picture" [alt]="user.name" class="user-avatar">
+            }
+            <div class="user-text">
+              <h3 class="user-name">{{ user.name || user.userName }}</h3>
+              <p class="user-email-display">{{ user.email }}</p>
+              <div class="user-roles">
+                @for (role of user.roles; track role) {
+                  <mat-chip>{{ role }}</mat-chip>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="quick-actions-card">
+    <mat-card-header>
+      <mat-card-title>Quick Actions</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="quick-actions">
+        <div class="action-item">
+          <mat-card appearance="outlined" class="action-card">
+            <mat-card-content>
+              <div class="action-icon">
+                <mat-icon color="primary">person_outline</mat-icon>
+              </div>
+              <h4>Profile Management</h4>
+              <p>Update your profile information and settings.</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button matButton="filled" color="primary" routerLink="/profile">
+              <mat-icon>person</mat-icon>
+                Profile
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+
+        @if (isAdmin) {
+          <div class="action-item">
+            <mat-card appearance="outlined" class="action-card">
+              <mat-card-content>
+                <div class="action-icon">
+                  <mat-icon color="accent">admin_panel_settings</mat-icon>
+                </div>
+                <h4>User Administration</h4>
+                <p>Manage users and roles in the system.</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button matButton="filled" color="accent" routerLink="/admin">
+                  <mat-icon>admin_panel_settings</mat-icon>
+                  Admin Panel
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+  </div>
+</div>

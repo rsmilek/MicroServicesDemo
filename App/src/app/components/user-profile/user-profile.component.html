@@ -1,0 +1,82 @@
+<div class="form-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <mat-card-title>User Profile</mat-card-title>
+      <mat-card-subtitle>View user profile and roles</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (currentUser$ | async; as user) {
+        <div class="profile-content">
+          <div class="profile-header">
+            @if (user.picture) {
+              <img [src]="user.picture" [alt]="user.name" class="profile-avatar">
+            }
+            <div class="profile-info">
+              <h3 class="user-name">{{ user.name || user.userName }}</h3>
+              <p class="user-email-display">{{ user.email }}</p>
+            </div>
+          </div>
+
+          <mat-divider class="profile-divider"></mat-divider>
+
+          <div class="profile-details">
+            <div class="detail-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Display Name</mat-label>
+                <input matInput [value]="user.name || user.userName || 'Not set'" readonly>
+                <mat-icon matPrefix>person</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="detail-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email Address</mat-label>
+                <input matInput [value]="user.email || 'Not set'" readonly>
+                <mat-icon matPrefix>email</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="detail-group">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Username</mat-label>
+                <input matInput [value]="user.userName || 'Not set'" readonly>
+                <mat-icon matPrefix>account_circle</mat-icon>
+              </mat-form-field>
+            </div>
+
+            <div class="detail-group">
+              <label class="roles-label">Roles:</label>
+              <div class="roles-list">
+                @for (role of user.roles; track role) {
+                  <mat-chip color="primary" selected>
+                    {{ role }}
+                  </mat-chip>
+                }
+                @if (!user.roles || user.roles.length === 0) {
+                  <mat-chip color="warn" disabled>No roles assigned</mat-chip>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+
+      @if (!(currentUser$ | async)) {
+        <div class="loading">
+          <div class="loading-content">
+            <mat-spinner></mat-spinner>
+            <p>Loading profile...</p>
+          </div>
+        </div>
+      }
+    </mat-card-content>
+
+    <mat-card-actions class="profile-actions">
+      <button matButton="filled" color="primary" routerLink="/dashboard">
+        <mat-icon>dashboard</mat-icon>
+        Back to Dashboard
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

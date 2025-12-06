@@ -1,0 +1,96 @@
+<div class="auth-container">
+  <mat-card class="auth-card">
+    <div class="text-center">
+      <h1>Welcome to uServiceDemo</h1>
+      <p class="subtitle">Sign in with your preferred account</p>
+    </div>
+
+    <div class="auth-content">
+      @if (!isAuthenticated) {
+        <div>
+          <!-- Email Sign-in Section -->
+          <div class="email-signin-section">
+            <h3 class="section-title">Email Sign-in</h3>
+            <form [formGroup]="signinForm" (ngSubmit)="onSigninWithEmail()" class="email-signin-form">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Email</mat-label>
+                <input
+                  matInput
+                  type="email"
+                  id="userName"
+                  formControlName="userName"
+                  placeholder="Enter your email"
+                  >
+                  @if (signinForm.get('userName')?.invalid && signinForm.get('userName')?.touched) {
+                    <mat-error>
+                      @if (signinForm.get('userName')?.errors?.['required']) {
+                        User name is required
+                      }
+                    </mat-error>
+                  }
+              </mat-form-field>
+              
+              @if (isUserNameValid) {
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Password</mat-label>
+                  <input
+                    matInput
+                    type="password"
+                    id="password"
+                    formControlName="password"
+                    placeholder="Enter your password"
+                    >
+                    @if (signinForm.get('password')?.invalid && signinForm.get('password')?.touched) {
+                      <mat-error>
+                        @if (signinForm.get('password')?.errors?.['required']) {
+                          Password is required
+                        }
+                      </mat-error>
+                    }
+                </mat-form-field>
+              }
+              
+              @if (isUserNameValid) {
+                <div class="form-actions">
+                  <button
+                    matButton="filled"
+                    color="primary"
+                    type="submit"
+                    class="full-width"
+                    [disabled]="signinForm.invalid || isLoading"
+                    >
+                    @if (isLoading) {
+                      Signing in...
+                    } @else {
+                      Sign-in
+                    }
+                  </button>
+                </div>
+              }
+              
+              @if (isUserNameValid) {
+                <div class="signup-link">
+                  <p>Don't have an account? <a routerLink="/signup">Sign-up</a></p>
+                </div>
+              }
+            </form>
+          </div>
+          
+          <!-- Divider -->
+          <div class="divider">
+            <span>OR</span>
+          </div>
+
+          <!-- Social Sign-in Section -->
+          <div class="social-signin-section text-center">
+            <h3 class="section-title">Social Sign-in</h3>
+            <button matButton="filled" color="primary" class="social-button full-width" (click)="onSigninWithMicrosoft()">
+              <mat-icon fontSet="fab" fontIcon="fa-microsoft"></mat-icon>
+              Continue with Microsoft
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </mat-card>
+</div>

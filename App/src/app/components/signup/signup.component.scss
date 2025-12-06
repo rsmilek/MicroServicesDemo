@@ -1,0 +1,48 @@
+// Component-specific styles only
+.auth-card {
+  // Card header styling to match profile component
+  mat-card-header {
+    margin-bottom: 16px;
+    
+    mat-card-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #333;
+    }
+    
+    mat-card-subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+    }
+  }
+}
+
+.email-signup-section {
+  margin-bottom: 0.8rem;
+}
+
+.signup-link {
+  text-align: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+
+  mat-divider {
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    margin: 0;
+    color: #666;
+  }
+
+  a {
+    color: #007bff;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
