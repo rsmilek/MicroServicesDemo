@@ -8,6 +8,12 @@ A complete microservices demonstration project featuring:
 - Comprehensive role management system
 - Email service with Azure Communication Services
 
+## See Also
+
+- [Authentication API - Full Documentation](./Services/Msd.Services.AuthApi/README.md) - Microsoft OAuth, JWT, Role-based auth
+- [Email API - Full Documentation](./Services/Msd.Services.EmailApi/README.md) - Azure Communication Services integration, setup guide
+- [Frontend Application - Full Documentation](./App/README.md) - Angular SPA with Material Design
+
 ## Project Structure
 
 ```
@@ -89,11 +95,5 @@ npm start
 - TypeScript 5.8
 - RxJS
 - SCSS
-
-## See Also
-
-- [Authentication API - Full Documentation](./Services/Msd.Services.AuthApi/README.md) - Microsoft OAuth, JWT, Role-based auth
-- [Email API - Full Documentation](./Services/Msd.Services.EmailApi/README.md) - Azure Communication Services integration, setup guide
-- [Frontend Application - Full Documentation](./App/README.md) - Angular SPA with Material Design
 
 
