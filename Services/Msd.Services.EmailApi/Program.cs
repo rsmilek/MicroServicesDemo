@@ -1,10 +1,12 @@
-using Msd.Services.EmailApi.Services;
 using Msd.Services.EmailApi.Extensions;
+using Msd.Services.EmailApi.Messaging;
+using Msd.Services.EmailApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------- Services ----------
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
 
 // ---------- Controllers and API ----------
 builder.Services.AddControllers();
@@ -49,5 +51,8 @@ app.MapGet("/", () => new
 .WithTags("Root")
 .WithSummary("Root endpoint")
 .WithDescription("Basic API information");
+
+// ---------- Register Azure Service Bus Consumer ----------
+app.UseAzureServiceBusConsumer();
 
 app.Run();

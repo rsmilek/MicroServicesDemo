@@ -25,4 +25,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Msd.Integration.MessageBus\Msd.Integration.MessageBus.csproj" />
+  </ItemGroup>
+
 </Project>

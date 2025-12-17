@@ -1,26 +1,34 @@
+using Microsoft.AspNetCore.Identity;
+using Msd.Integration.MessageBus;
 using Msd.Services.AuthApi.Models.Dtos;
 using Msd.Services.AuthApi.Utility;
-using Microsoft.AspNetCore.Identity;
 
 namespace Msd.Services.AuthApi.Services
 {
     public class AuthService : IAuthService
     {
+        private readonly ITokenService _tokenService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly ITokenService _tokenService;
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        private readonly string _registerUserQueue;
 
         public AuthService(
             ITokenService tokenService,
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IMessageBus messageBus,
+            IConfiguration configuration)
         {
             _tokenService = tokenService;
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
+            _messageBus = messageBus;
+            _configuration = configuration;
+            _registerUserQueue = _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue")
+                ?? throw new Exception("TopicAndQueueNames:RegisterUserQueue is undefined!");
         }
 
         public async Task<LoginResponseDto> RegisterAsync(RegistrationRequestDto registrationRequestDto)
@@ -49,10 +57,9 @@ namespace Msd.Services.AuthApi.Services
             var existingUser = await _userManager.FindByEmailAsync(email);
             if (existingUser != null)
             {
-                if (socialSign)
-                    return existingUser;
-                else
+                if (!socialSign)
                     throw new Exception($"User {email} already exists!");
+                return existingUser;
             }
 
             // Check password
@@ -74,6 +81,9 @@ namespace Msd.Services.AuthApi.Services
 
             // Assign "User" role on initial creation
             await _userManager.AddToRoleAsync(user, Role.User);
+
+            // Publish message into Azure Message Service -> RegisterUserQueue
+            await _messageBus.PublishMessage(email, _registerUserQueue);
 
             return user;
         }

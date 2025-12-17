@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Msd.Integration.MessageBus;
 using Msd.Services.AuthApi.Data;
 using Msd.Services.AuthApi.Extensions;
 using Msd.Services.AuthApi.Services;
@@ -72,6 +73,7 @@ builder.Services.AddAuthentication(options =>
 // ---------- Services ----------
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMessageBus, MessageBus>();
 
 // ---------- Controllers and API ----------
 builder.Services.AddControllers();

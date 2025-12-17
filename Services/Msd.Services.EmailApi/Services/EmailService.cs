@@ -6,11 +6,13 @@ namespace Msd.Services.EmailApi.Services
 {
     public class EmailService : IEmailService
     {
-        private readonly EmailClient _emailClient;
         private readonly string _senderAddress;
+        private readonly EmailClient _emailClient;
         private readonly ILogger<EmailService> _logger;
 
-        public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+        public EmailService(
+            IConfiguration configuration,
+            ILogger<EmailService> logger)
         {
             var connectionString = configuration["AzureCommunicationServices:ConnectionString"]
                 ?? throw new ArgumentNullException("AzureCommunicationServices:ConnectionString is not configured");
@@ -34,11 +36,9 @@ namespace Msd.Services.EmailApi.Services
                         PlainText = request.Body
                     });
 
-                EmailSendOperation emailSendOperation = await _emailClient.SendAsync(
-                    WaitUntil.Completed,
-                    emailMessage);
+                var emailSendOperation = await _emailClient.SendAsync(WaitUntil.Completed, emailMessage);
 
-                _logger.LogInformation("Email sent successfully. MessageId: {MessageId}, Status: {Status}",
+                _logger?.LogInformation("Email sent successfully. MessageId: {MessageId}, Status: {Status}",
                     emailSendOperation.Id, emailSendOperation.Value.Status);
 
                 return new SendEmailResponseDto
@@ -49,7 +49,7 @@ namespace Msd.Services.EmailApi.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to send email to {To}", request.To);
+                _logger?.LogError(ex, "Failed to send email to {To}", request.To);
                 throw;
             }
         }

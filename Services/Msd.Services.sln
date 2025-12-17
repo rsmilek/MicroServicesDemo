@@ -1,10 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36623.8
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msd.Services.AuthApi", "Msd.Services.AuthApi\Msd.Services.AuthApi.csproj", "{46CA756C-A9B5-0428-52E5-E54753358A0A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msd.Services.EmailApi", "Msd.Services.EmailApi\Msd.Services.EmailApi.csproj", "{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Msd.Integration.MessageBus", "Msd.Integration.MessageBus\Msd.Integration.MessageBus.csproj", "{5B2FC9D2-C25C-4D5F-BBCD-36E875E2C3DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B76BAEB-7C32-BA19-9C15-E27C6C09FC9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B2FC9D2-C25C-4D5F-BBCD-36E875E2C3DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B2FC9D2-C25C-4D5F-BBCD-36E875E2C3DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B2FC9D2-C25C-4D5F-BBCD-36E875E2C3DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B2FC9D2-C25C-4D5F-BBCD-36E875E2C3DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
