@@ -1,12 +1,36 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Msd.Services.EmailApi.Extensions;
 using Msd.Services.EmailApi.Messaging;
 using Msd.Services.EmailApi.Services;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ---------- Services ----------
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
+
+// ---------- Authentication ----------
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            builder.Configuration["Jwt:Key"] ?? throw new Exception("Jwt:Key is undefined!"))),
+        ValidateLifetime = true,
+    };
+});
 
 // ---------- Controllers and API ----------
 builder.Services.AddControllers();
@@ -36,6 +60,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors();
+app.UseAuthentication();
 app.UseAuthorization();
 
 // ---------- Controllers ----------

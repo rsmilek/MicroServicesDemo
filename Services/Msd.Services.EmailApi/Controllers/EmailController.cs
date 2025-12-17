@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Msd.Services.EmailApi.Models;
 using Msd.Services.EmailApi.Models.Dtos;
@@ -7,6 +8,7 @@ namespace Msd.Services.EmailApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class EmailController : ControllerBase
     {
         private readonly IEmailService _emailService;
