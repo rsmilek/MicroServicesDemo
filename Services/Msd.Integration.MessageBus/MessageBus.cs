@@ -1,5 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
 using Microsoft.Extensions.Configuration;
+using Msd.Integration.MessageBus.Models.Dtos;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -32,5 +33,11 @@ namespace Msd.Integration.MessageBus
             await sender.SendMessageAsync(finalMessage);
             await client.DisposeAsync();
         }
+
+        public async Task PublishEmail(SendEmailRequestDto email, string topicEueueName)
+        {
+            await PublishMessage(email, topicEueueName);
+        }
+
     }
 }

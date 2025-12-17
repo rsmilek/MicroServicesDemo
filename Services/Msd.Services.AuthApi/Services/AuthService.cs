@@ -12,7 +12,7 @@ namespace Msd.Services.AuthApi.Services
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IMessageBus _messageBus;
         private readonly IConfiguration _configuration;
-        private readonly string _registerUserQueue;
+        private readonly string _sendEmailQueueName;
 
         public AuthService(
             ITokenService tokenService,
@@ -27,8 +27,8 @@ namespace Msd.Services.AuthApi.Services
             _signInManager = signInManager;
             _messageBus = messageBus;
             _configuration = configuration;
-            _registerUserQueue = _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue")
-                ?? throw new Exception("TopicAndQueueNames:RegisterUserQueue is undefined!");
+            _sendEmailQueueName = _configuration.GetValue<string>("TopicAndQueueNames:SendEmailQueue")
+                ?? throw new Exception("TopicAndQueueNames:SendEmailQueue is undefined!");
         }
 
         public async Task<LoginResponseDto> RegisterAsync(RegistrationRequestDto registrationRequestDto)
@@ -82,8 +82,14 @@ namespace Msd.Services.AuthApi.Services
             // Assign "User" role on initial creation
             await _userManager.AddToRoleAsync(user, Role.User);
 
-            // Publish message into Azure Message Service -> RegisterUserQueue
-            await _messageBus.PublishMessage(email, _registerUserQueue);
+            // Publish email into Azure Message Service -> SendEmailQueue
+            var emailMessage = new Msd.Integration.MessageBus.Models.Dtos.SendEmailRequestDto
+            {
+                To = email,
+                Subject = "Welcome to MSD Application",
+                Body = $"Hello {email},\n\nThank you for registering at MSD Application.\n\nBest regards,\nMSD Team"
+            };
+            await _messageBus.PublishEmail(emailMessage, _sendEmailQueueName);
 
             return user;
         }

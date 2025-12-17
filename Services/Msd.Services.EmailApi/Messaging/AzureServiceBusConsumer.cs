@@ -12,8 +12,8 @@ namespace Msd.Services.EmailApi.Messaging
         private readonly ILogger<EmailService> _logger;
         private readonly EmailService _emailService;
         private readonly string serviceBusConnectionString;
-        private readonly string registerUserQueue;
-        private ServiceBusProcessor _registerUserProcessor;
+        private readonly string sendEmailQueueName;
+        private ServiceBusProcessor _sendEmailProcessor;
 
         public AzureServiceBusConsumer(
             IConfiguration configuration, 
@@ -26,52 +26,48 @@ namespace Msd.Services.EmailApi.Messaging
             serviceBusConnectionString = _configuration.GetValue<string>("ServiceBusConnectionString")
                 ?? throw new Exception("ServiceBusConnectionString isn't defined!");
 
-            registerUserQueue = _configuration.GetValue<string>("TopicAndQueueNames:RegisterUserQueue")
-                ?? throw new Exception("TopicAndQueueNames:RegisterUserQueue isn't defined!");
+            sendEmailQueueName = _configuration.GetValue<string>("TopicAndQueueNames:SendEmailQueue")
+                ?? throw new Exception("TopicAndQueueNames:SendEmailQueue isn't defined!");
 
             var client = new ServiceBusClient(serviceBusConnectionString);
-            _registerUserProcessor = client.CreateProcessor(registerUserQueue);
+            _sendEmailProcessor = client.CreateProcessor(sendEmailQueueName);
         }
 
         public async Task Start()
         {
-            _registerUserProcessor.ProcessMessageAsync += OnUserRegisterRequestReceived;
-            _registerUserProcessor.ProcessErrorAsync += ErrorHandler;
-            await _registerUserProcessor.StartProcessingAsync();
+            _sendEmailProcessor.ProcessMessageAsync += OnSendEmailRequestReceived;
+            _sendEmailProcessor.ProcessErrorAsync += ErrorHandler;
+            await _sendEmailProcessor.StartProcessingAsync();
         }
 
         public async Task Stop()
         {
-            await _registerUserProcessor.StopProcessingAsync();
-            await _registerUserProcessor.DisposeAsync();
+            await _sendEmailProcessor.StopProcessingAsync();
+            await _sendEmailProcessor.DisposeAsync();
         }
 
-        private async Task OnUserRegisterRequestReceived(ProcessMessageEventArgs args)
+        private async Task OnSendEmailRequestReceived(ProcessMessageEventArgs args)
         {
             var message = args.Message;
             var body = Encoding.UTF8.GetString(message.Body);
 
-            string email = JsonConvert.DeserializeObject<string>(body) 
-                ?? throw new Exception("Invalid email address!");
             try
             {
-                await _emailService.SendEmailAsync(new SendEmailRequestDto
-                { 
-                    To = email,
-                    Subject = "Registration",
-                    Body = $"User {email} has been registered successfully!"
-                });
+                var emailMessage = JsonConvert.DeserializeObject<SendEmailRequestDto>(body)
+                    ?? throw new Exception("Invalid email message!");
+                await _emailService.SendEmailAsync(emailMessage);
                 await args.CompleteMessageAsync(args.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"Error sending email message: {body}!");
                 throw;
             }
         }
 
         private Task ErrorHandler(ProcessErrorEventArgs args)
         {
-            Console.WriteLine(args.Exception.ToString());
+            _logger.LogError(args.Exception, "Error processing message: {ErrorSource}", args.ErrorSource);
             return Task.CompletedTask;
         }
        
