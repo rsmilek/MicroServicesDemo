@@ -1,4 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -6,11 +7,19 @@ namespace Msd.Integration.MessageBus
 {
     public class MessageBus : IMessageBus
     {
-        private string connectionString = "CHANGE_THIS_SECRET_KEY";
+        private readonly IConfiguration _configuration;
+        private string _connectionString;
+
+        public MessageBus(IConfiguration configuration)
+        {
+            _configuration = configuration;
+            _connectionString = _configuration.GetConnectionString("ServiceBusConnectionString")
+                ?? throw new Exception("ServiceBusConnectionString isn't defined!");
+        }
 
         public async Task PublishMessage(object message, string topicEueueName)
         {
-            await using var client = new ServiceBusClient(connectionString);
+            await using var client = new ServiceBusClient(_connectionString);
 
             ServiceBusSender sender = client.CreateSender(topicEueueName);
 
