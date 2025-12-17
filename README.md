@@ -4,14 +4,16 @@ A complete microservices demonstration project featuring:
 - ASP.NET Core 10 Auth API with Microsoft OAuth integration
 - ASP.NET Identity + role-based authorization
 - JWT token authentication
+- Email service with Azure Communication Services
+- Async inter-service communication with Azure Service Bus
 - Angular 20.1 frontend with Material Design
 - Comprehensive role management system
-- Email service with Azure Communication Services
 
 ## See Also
 
 - [Authentication API - Full Documentation](./Services/Msd.Services.AuthApi/README.md) - Microsoft OAuth, JWT, Role-based auth
 - [Email API - Full Documentation](./Services/Msd.Services.EmailApi/README.md) - Azure Communication Services integration, setup guide
+- [Message Bus Integration - Full Documentation](./Services/Msd.Integration.MessageBus/README.md) - Azure Service Bus, inter-service communication
 - [Frontend Application - Full Documentation](./App/README.md) - Angular SPA with Material Design
 
 ## Project Structure
@@ -20,16 +22,27 @@ A complete microservices demonstration project featuring:
 MicroServicesDemo/
 ├── Services/                     # Backend API Services
 │   ├── Msd.Services.sln         # Solution file
+│   ├── Msd.Integration.MessageBus/  # Message Bus Integration Library
+│   │   ├── IMessageBus.cs        # Message bus interface
+│   │   ├── MessageBus.cs         # Azure Service Bus implementation
+│   │   ├── Models/               # Data models
+│   │   │   └── Dtos/             # Data Transfer Objects
+│   │   └── README.md             # Documentation
 │   ├── Msd.Services.AuthApi/     # Authentication API Service
 │   │   ├── Controllers/          # API Controllers
 │   │   ├── Data/                 # Entity Framework DbContext
 │   │   ├── Models/               # DTOs and Data Models
 │   │   ├── Services/             # Business Logic Services
-│   │   └── Migrations/           # Database Migrations
+│   │   ├── Extensions/           # Configuration extensions
+│   │   ├── Migrations/           # Database Migrations
+│   │   └── README.md             # Documentation
 │   └── Msd.Services.EmailApi/    # Email API Service
 │       ├── Controllers/          # API Controllers
 │       ├── Models/               # DTOs and Data Models
-│       └── Services/             # Email Services
+│       ├── Services/             # Email Services
+│       ├── Messaging/            # Service Bus consumer
+│       ├── Extensions/           # Configuration extensions
+│       └── README.md             # Documentation
 └── App/                          # Angular Frontend Application
     ├── src/app/components/       # UI Components
     ├── src/app/services/         # Angular Services
@@ -71,12 +84,6 @@ npm start
 **Admin Account:**
 - Email: `admin@admin.com`
 - Password: `Admin123`
-
-## Documentation
-
-- [🔧 Authentication API Documentation](./Services/Msd.Services.AuthApi/README.md)
-- [📧 Email API Documentation](./Services/Msd.Services.EmailApi/README.md)
-- [🚀 Frontend Documentation](./App/README.md)
 
 ## Technology Stack
 
