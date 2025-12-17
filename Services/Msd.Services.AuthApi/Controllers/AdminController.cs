@@ -1,9 +1,11 @@
-using Msd.Services.AuthApi.Models;
-using Msd.Services.AuthApi.Models.Dtos;
-using Msd.Services.AuthApi.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Msd.Integration.MessageBus;
+using Msd.Services.AuthApi.Models;
+using Msd.Services.AuthApi.Models.Dtos;
+using Msd.Services.AuthApi.Services;
+using Msd.Services.AuthApi.Utility;
 
 namespace Msd.Services.AuthApi.Controllers
 {
@@ -14,13 +16,25 @@ namespace Msd.Services.AuthApi.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IEmailMessageFactory _emailMessageFactory;
+        private readonly IMessageBus _messageBus;
+        private readonly IConfiguration _configuration;
+        private readonly string _sendEmailQueueName;
 
         public AdminController(
             UserManager<IdentityUser> userManager, 
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IEmailMessageFactory emailMessageFactory,
+            IMessageBus messageBus,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _emailMessageFactory = emailMessageFactory;
+            _messageBus = messageBus;
+            _configuration = configuration;
+            _sendEmailQueueName = _configuration.GetValue<string>("TopicAndQueueNames:SendEmailQueue")
+                ?? throw new Exception("TopicAndQueueNames:SendEmailQueue is undefined!");
         }
 
         /// <summary>
@@ -42,6 +56,10 @@ namespace Msd.Services.AuthApi.Controllers
             var result = await _userManager.AddToRoleAsync(user, role);            
             if (result.Succeeded)
             {
+                // Publish email into Azure Message Service -> SendEmailQueue
+                var emailMessage = _emailMessageFactory.CreateAddRoleToUserEmail(email, role);
+                await _messageBus.PublishEmail(emailMessage, _sendEmailQueueName);
+
                 return Ok(new ApiResponse<object>()
                 {
                     Message = $"User {email} successfully promoted to {role}.",
@@ -80,6 +98,10 @@ namespace Msd.Services.AuthApi.Controllers
             var result = await _userManager.RemoveFromRoleAsync(user, role);
             if (result.Succeeded)
             {
+                // Publish email into Azure Message Service -> SendEmailQueue
+                var emailMessage = _emailMessageFactory.CreateRemoveRoleToUserEmail(email, role);
+                await _messageBus.PublishEmail(emailMessage, _sendEmailQueueName);
+
                 return Ok(new ApiResponse<object>()
                 {
                     Message = $"Role {role} successfully removed from user {email}.",
@@ -159,6 +181,10 @@ namespace Msd.Services.AuthApi.Controllers
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
+                // Publish email into Azure Message Service -> SendEmailQueue
+                var emailMessage = _emailMessageFactory.CreateDeleteUserEmail(email);
+                await _messageBus.PublishEmail(emailMessage, _sendEmailQueueName);
+
                 return Ok(new ApiResponse<object>()
                 {
                     Message = $"User {email} successfully deleted.",

@@ -71,6 +71,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 // ---------- Services ----------
+builder.Services.AddScoped<IEmailMessageFactory, EmailMessageFactory>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IMessageBus, MessageBus>();
