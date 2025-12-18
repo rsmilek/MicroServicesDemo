@@ -17,7 +17,7 @@ A complete microservices demonstration project featuring:
 
 ## App Architecture
 
-<img src="./Doc/Msd.Flowchart.png" width="500" alt="image"/>
+<img src="./Doc/Msd.Flowchart.png" width="600" alt="image"/>
 
 ## Project Structure
 
