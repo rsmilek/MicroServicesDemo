@@ -1,4 +1,4 @@
-# MicroServicesDemo - Authentication Service
+# MicroServicesDemo
 
 A complete microservices demonstration project featuring:
 - ASP.NET Core 10 Auth API with Microsoft OAuth integration + email authentication
