@@ -30,8 +30,11 @@ A complete microservices demonstration project featuring:
 
 ```
 MicroServicesDemo/
+├── Doc/                          # Documentation and Assets
+│   ├── Msd.Flowchart.png         # Application architecture flowchart
+│   └── Gallery/                  # Gallery images
 ├── Services/                     # Backend API Services
-│   ├── Msd.Services.sln         # Solution file
+│   ├── Msd.Services.sln          # Solution file
 │   ├── Msd.Integration.MessageBus/  # Message Bus Integration Library
 │   │   ├── IMessageBus.cs        # Message bus interface
 │   │   ├── MessageBus.cs         # Azure Service Bus implementation
