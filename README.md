@@ -1,20 +1,23 @@
 # MicroServicesDemo - Authentication Service
 
 A complete microservices demonstration project featuring:
-- ASP.NET Core 10 Auth API with Microsoft OAuth integration
+- ASP.NET Core 10 Auth API with Microsoft OAuth integration + email authentication
 - ASP.NET Identity + role-based authorization
-- JWT token authentication
+- JWT token API authentication
 - Email service with Azure Communication Services
 - Async inter-service communication with Azure Service Bus
-- Angular 20.1 frontend with Material Design
-- Comprehensive role management system
+- Angular 20.1 frontend with Material Design + Comprehensive role management system
 
 ## See Also
 
-- [Authentication API - Full Documentation](./Services/Msd.Services.AuthApi/README.md) - Microsoft OAuth, JWT, Role-based auth
+- [Authentication API - Full Documentation](./Services/Msd.Services.AuthApi/README.md) - Microsoft OAuth / Email, JWT, Role-based auth
 - [Email API - Full Documentation](./Services/Msd.Services.EmailApi/README.md) - Azure Communication Services integration, setup guide
 - [Message Bus Integration - Full Documentation](./Services/Msd.Integration.MessageBus/README.md) - Azure Service Bus, inter-service communication
 - [Frontend Application - Full Documentation](./App/README.md) - Angular SPA with Material Design
+
+## App Architecture
+
+![image.png](./Doc/Msd.Flowchart.png){width=600}
 
 ## Project Structure
 
