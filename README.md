@@ -1,3 +1,8 @@
+# Microservices Overview
+
+[Microservices Summary Documentation](./Doc/MicroservicesSummary.md) - Microsoft OAuth / Email, JWT, Role-based auth
+
+
 # MicroServicesDemo
 
 A complete microservices demonstration project featuring:
